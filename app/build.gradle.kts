@@ -62,6 +62,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1")
+    implementation("androidx.savedstate:savedstate:1.1.0")
 
     // Test dependencies
     testImplementation("junit:junit:4.13.2")
