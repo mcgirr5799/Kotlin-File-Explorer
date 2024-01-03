@@ -1,0 +1,62 @@
+
+## Application Architecture Documentation
+
+### Overview
+
+This Android application follows the MVVM (Model-View-ViewModel) architectural pattern, leveraging the advantages of Jetpack Compose for building the UI (User Interface) and Kotlin for the core logic. The architecture is designed to promote a clear separation of concerns, enhance testability, and improve maintainability.
+
+### Components
+
+1. **Model:** 
+   - Represents the data and business logic of the application.
+   - Includes classes like `FileRepository` which interact with the file system to retrieve file information.
+
+2. **View:** 
+   - Consists of UI components built using Jetpack Compose.
+   - Includes composable functions like `FileExplorerScreen` and `FileItemView` to display file information.
+
+3. **ViewModel:** 
+   - Serves as the intermediary between the Model and View.
+   - Contains `FileExplorerViewModel` which holds the state and logic for the file explorer UI.
+   - Responsible for calling Model methods and preparing data for display.
+
+### Key Classes and Functions
+
+- `FileExplorerViewModel`:
+  - Type: ViewModel
+  - Description: Manages UI-related data for the file explorer screen and survives configuration changes.
+  - Functions: 
+    - `loadFiles(directoryPath: String)`: Loads files from the specified directory path.
+
+- `FileExplorerScreen`:
+  - Type: Composable Function
+  - Description: Renders the UI for the file explorer.
+  - ViewModel: Uses `FileExplorerViewModel` for its data.
+
+- `FileItemView`:
+  - Type: Composable Function
+  - Description: Renders a single file item in the file explorer.
+
+- `FileRepository`:
+  - Type: Model
+  - Description: Handles data operations like reading files from a directory.
+  - Functions:
+    - `getFilesInDirectory(directoryPath: String)`: Returns a list of `FileItem` from the specified directory.
+
+### Testing
+
+- ViewModel and Model classes are tested using JUnit.
+- UI components (Composables) are tested using the Jetpack Compose testing framework.
+
+### Dependency Injection (If Applicable)
+
+- Explain how dependencies (like `FileRepository`) are provided to `ViewModels` and other classes.
+
+### Additional Considerations
+
+- **Threading:** Describe any specific threading considerations, especially how coroutines are used in `ViewModels`.
+- **Error Handling:** Outline the strategy for handling and reporting errors, especially in `ViewModels` and `Repository`.
+- **Navigation:** If applicable, describe how navigation is handled in the app.
+- **State Management:** Explain how state is managed and observed within `ViewModels` and Composables.
+
+This documentation provides a high-level overview of the architecture. It should be maintained and updated as the application evolves. For more complex applications, consider including diagrams to illustrate the relationships between different components.
