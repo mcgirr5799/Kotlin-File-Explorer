@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- permissions -->
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <!-- Updated permissions for Android 13 -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <!-- Add WRITE permissions if your app needs to modify media files -->
+    <!-- <uses-permission android:name="android.permission.WRITE_MEDIA_IMAGES" /> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_MEDIA_VIDEO" /> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_MEDIA_AUDIO" /> -->
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -17,8 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FileExplorer"
-        android:requestLegacyExternalStorage="true"
-        tools:targetApi="31">
+        tools:targetApi="33"> <!-- Updated target API -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -26,7 +30,6 @@
             android:theme="@style/Theme.FileExplorer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
