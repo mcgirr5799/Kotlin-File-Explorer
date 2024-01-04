@@ -14,7 +14,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.InsertDriveFile
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -86,22 +89,26 @@ fun FileExplorerScreen() {
 @Composable
 fun FileItemView(fileItem: FileItem, onClick: () -> Unit) {
     Card(
-       modifier = Modifier
-           .fillMaxWidth()
-           .padding(8.dp)
-           .clickable(onClick = onClick),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable(onClick = onClick),
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = if (fileItem.isDirectory) Icons.Filled.Folder else Icons.Filled.InsertDriveFile,
+                imageVector = if (fileItem.isDirectory) Icons.Filled.Folder
+                    else if (fileItem.fileType == "jpg" || fileItem.fileType == "png" || fileItem.fileType == "jpeg") Icons.Filled.Image
+                    else if (fileItem.fileType == "mp4") Icons.Filled.VideoLibrary
+                    else if (fileItem.fileType == "mp3") Icons.Filled.MusicNote
+                    else Icons.Filled.InsertDriveFile,
                 contentDescription = if (fileItem.isDirectory) "Directory" else "File",
                 tint = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.width(16.dp))
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = fileItem.name,
                     fontWeight = FontWeight.Bold
@@ -109,19 +116,20 @@ fun FileItemView(fileItem: FileItem, onClick: () -> Unit) {
                 Row {
                     Text(
                         text = "Last modified: ${formatDate(fileItem.lastModified)}",
-                        color = Color.Gray
+                        color = Color.Gray,
+                        maxLines = 1,
+                        modifier = Modifier.weight(1f) // Allocate space proportionally
                     )
-                    Spacer(modifier = Modifier.width(16.dp))
 
-                    if(!fileItem.isDirectory) {
+                    if (!fileItem.isDirectory) {
                         Text(
                             text = "Type: ${fileItem.fileType}",
-                            color = Color.Gray
+                            color = Color.Gray,
+                            maxLines = 1,
+                            modifier = Modifier.weight(1f) // Allocate space proportionally
                         )
                     }
-                    Spacer(modifier = Modifier.width(16.dp))
                 }
-            Spacer(modifier = Modifier.width(16.dp))
             }
         }
     }

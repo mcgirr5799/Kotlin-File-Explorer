@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_PLAYLISTS" />
+    <uses-permission android:name="android.permission.READ_MEDIA_DOCUMENTS" />
+    <uses-permission android:name="android.permission.READ_MEDIA_DRM" />
+    <uses-permission android:name="android.permission.READ_MEDIA_OBB" />
+
     <!-- Add WRITE permissions if your app needs to modify media files -->
     <!-- <uses-permission android:name="android.permission.WRITE_MEDIA_IMAGES" /> -->
     <!-- <uses-permission android:name="android.permission.WRITE_MEDIA_VIDEO" /> -->

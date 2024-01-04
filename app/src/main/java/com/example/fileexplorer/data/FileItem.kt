@@ -5,6 +5,7 @@ data class FileItem(
     val path: String,
     val isDirectory: Boolean,
     val lastModified: Long, // Added the lastModified property
-    val fileType: String // Added the fileType property
+    val fileType: String, // Added the fileType property
+    val fileSize: Long // Added the fileSize property
 )
 

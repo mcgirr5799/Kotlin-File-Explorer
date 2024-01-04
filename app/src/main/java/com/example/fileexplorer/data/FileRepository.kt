@@ -17,7 +17,8 @@ class FileRepository {
                     path = file.path,
                     isDirectory = file.isDirectory,
                     lastModified = file.lastModified(), // Added the lastModified property
-                    fileType = file.extension // Added the fileType property
+                    fileType = file.extension, // Added the fileType property
+                    fileSize = file.length() // Added the fileSize property
                 )
             } ?: emptyList()
         } else {
