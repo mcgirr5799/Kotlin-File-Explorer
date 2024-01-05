@@ -1,6 +1,9 @@
 package com.example.fileexplorer.viewModels
 
+import android.content.Context
+import android.net.Uri
 import android.os.Environment
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,5 +50,46 @@ class FileExplorerViewModel(
         viewModelScope.launch {
             _fileItems.value = fileRepository.getFilesInDirectory(directoryPath)
         }
+    }
+
+    fun loadFilesFromUri(context: Context, uri: Uri) {
+        viewModelScope.launch {
+            val directory = DocumentFile.fromTreeUri(context, uri)
+            val files = directory?.listFiles()?.map { file ->
+                FileItem(
+                    name = file.name ?: "",
+                    path = file.uri.toString(),
+                    isDirectory = file.isDirectory,
+                    lastModified = file.lastModified(),
+                    fileType = file.type ?: "unknown", // Changed to use file.type
+                    fileSize = file.length()
+                )
+            }
+            _fileItems.value = files ?: emptyList()
+        }
+    }
+
+    fun updateCurrentDirectoryFromUri(uri: Uri) {
+        // Convert the Uri to a path or a representation that you can use
+        val newPath = convertUriToPath(uri)
+        _currentDirectory.value = newPath
+    }
+
+    private fun convertUriToPath(uri: Uri): String {
+        // Implement logic to convert Uri to a usable path or identifier
+        // This is complex as Uris from SAF do not directly map to file paths
+        // You might store Uri.toString() or another identifier depending on your use case
+        return uri.toString()
+    }
+
+    fun sortFiles(sortOption: String) {
+        val sortedList = when (sortOption) {
+            "Name" -> _fileItems.value.sortedBy { it.name }
+            "Date" -> _fileItems.value.sortedByDescending { it.lastModified }
+            "Type" -> _fileItems.value.sortedBy { it.fileType }
+            "Size" -> _fileItems.value.sortedByDescending { it.fileSize }
+            else -> _fileItems.value
+        }
+        _fileItems.value = sortedList
     }
 }

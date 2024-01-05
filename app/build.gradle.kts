@@ -64,6 +64,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1")
     implementation("androidx.savedstate:savedstate:1.1.0")
 
+
+    implementation("androidx.documentfile:documentfile:1.0.1")
     // Test dependencies
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
