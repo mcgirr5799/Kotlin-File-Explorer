@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.FolderOpen
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material3.AlertDialog
@@ -35,12 +36,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,6 +55,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fileexplorer.data.FileItem
 import com.example.fileexplorer.data.FileRepository
+import com.example.fileexplorer.data.SearchCriteria
+import com.example.fileexplorer.utils.Helper
 import com.example.fileexplorer.viewModels.FileExplorerViewModel
 import com.example.fileexplorer.viewModels.FileExplorerViewModelFactory
 import java.text.SimpleDateFormat
@@ -62,9 +68,7 @@ import java.util.Locale
 
 @Composable
 fun FileExplorerScreen() {
-    val expanded = remember { mutableStateOf(false) }
     val sortOptions = listOf("Name", "Date", "Type", "Size")
-    val selectedOption = remember { mutableStateOf(sortOptions[0]) }
     val showSortingDialog = remember { mutableStateOf(false) }
 
     val fileRepository = FileRepository()
@@ -85,6 +89,9 @@ fun FileExplorerScreen() {
         }
     }
 
+    val searchCriteria = fileExplorerViewModel.searchCriteria.collectAsState()
+    val showSearchDialog = remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -92,6 +99,9 @@ fun FileExplorerScreen() {
                 actions = {
                     IconButton(onClick = { showSortingDialog.value = true }) {
                         Icon(Icons.Default.Sort, contentDescription = "Sort")
+                    }
+                    IconButton(onClick = { showSearchDialog.value = true }) {
+                        Icon(Icons.Default.Search, contentDescription = "Search")
                     }
                 }
             )
@@ -131,6 +141,13 @@ fun FileExplorerScreen() {
             fileExplorerViewModel.sortFiles(option)
         }, sortOptions)
     }
+
+    if (showSearchDialog.value) {
+        SearchDialog(searchCriteria.value, onCriteriaChanged = { newCriteria ->
+            fileExplorerViewModel.updateSearchCriteria(newCriteria)
+            showSearchDialog.value = false
+        })
+    }
 }
 @Composable
 fun FileItemView(fileItem: FileItem, onClick: () -> Unit) {
@@ -163,20 +180,28 @@ fun FileItemView(fileItem: FileItem, onClick: () -> Unit) {
                     Text(
                         text = "Last modified: ${formatDate(fileItem.lastModified)}",
                         color = Color.Gray,
-                        maxLines = 1,
-                        modifier = Modifier.weight(1f) // Allocate space proportionally
+                        maxLines = 1
                     )
-
+                }
+                Row {
                     if (!fileItem.isDirectory) {
                         Text(
                             text = "Type: ${fileItem.fileType}",
                             color = Color.Gray,
-                            maxLines = 1,
-                            modifier = Modifier.weight(1f) // Allocate space proportionally
+                            maxLines = 1
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    if (!fileItem.isDirectory) {
+                        Text(
+                            text = "Size: " + Helper.formatFileSize(fileItem.fileSize),
+                            color = Color.Gray,
+                            maxLines = 1
                         )
                     }
                 }
             }
+
         }
     }
 }
@@ -213,4 +238,55 @@ fun SortingDialog(showDialog: MutableState<Boolean>, onOptionSelected: (String) 
             }
         )
     }
+}
+
+@Composable
+fun SearchDialog(criteria: SearchCriteria, onCriteriaChanged: (SearchCriteria) -> Unit) {
+    var tempCriteria by remember { mutableStateOf(criteria) }
+
+    AlertDialog(
+        onDismissRequest = { /* Handle dismiss */ },
+        title = { Text("Search Criteria") },
+        text = {
+            Column {
+                TextField(
+                    value = tempCriteria.query,
+                    onValueChange = { tempCriteria = tempCriteria.copy(query = it) },
+                    label = { Text("Search Query") }
+                )
+
+                // Dropdown or TextField for file type
+                TextField(
+                    value = tempCriteria.fileType,
+                    onValueChange = { tempCriteria = tempCriteria.copy(fileType = it) },
+                    label = { Text("File Type (e.g., 'jpg', 'pdf')") }
+                )
+
+                // TextFields for file size range
+                Row {
+                    TextField(
+                        value = if (tempCriteria.minFileSize > 0) tempCriteria.minFileSize.toString() else "",
+                        onValueChange = { newSize ->
+                            tempCriteria = tempCriteria.copy(minFileSize = newSize.toLongOrNull() ?: 0)
+                        },
+                        label = { Text("Min Size (Bytes)") }
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    TextField(
+                        value = if (tempCriteria.maxFileSize < Long.MAX_VALUE) tempCriteria.maxFileSize.toString() else "",
+                        onValueChange = { newSize ->
+                            tempCriteria = tempCriteria.copy(maxFileSize = newSize.toLongOrNull() ?: Long.MAX_VALUE)
+                        },
+                        label = { Text("Max Size (Bytes)") }
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = { onCriteriaChanged(tempCriteria) }) {
+                Text("Search")
+            }
+        },
+        // Optional dismiss button
+    )
 }

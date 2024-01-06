@@ -1,4 +1,4 @@
-package com.example.fileexplorer.data
+package com.example.fileexplorer.utils
 
 import android.Manifest
 import android.app.Activity

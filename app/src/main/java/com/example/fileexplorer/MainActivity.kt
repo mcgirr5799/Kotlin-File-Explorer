@@ -8,7 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.fileexplorer.data.Permissions
+import com.example.fileexplorer.utils.Permissions
 import com.example.fileexplorer.ui.FileExplorerScreen
 import com.example.fileexplorer.ui.theme.FileExplorerTheme
 

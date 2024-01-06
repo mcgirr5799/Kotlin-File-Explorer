@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fileexplorer.data.FileItem
 import com.example.fileexplorer.data.FileRepository
+import com.example.fileexplorer.data.SearchCriteria
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -23,7 +24,23 @@ class FileExplorerViewModel(
     }
 
     private val _fileItems = MutableStateFlow<List<FileItem>>(emptyList())
+    private val _searchCriteria = MutableStateFlow(SearchCriteria())
+
     val fileItems: StateFlow<List<FileItem>> = _fileItems
+
+    val searchCriteria: StateFlow<SearchCriteria> = _searchCriteria
+
+    fun updateSearchCriteria(criteria: SearchCriteria) {
+        _searchCriteria.value = criteria
+        performSearch()
+    }
+
+    private fun performSearch() {
+        viewModelScope.launch {
+            val criteria = _searchCriteria.value
+            _fileItems.value = fileRepository.searchFilesWithCriteria(_currentDirectory.value, criteria)
+        }
+    }
 
     private val _currentDirectory = MutableStateFlow(
         savedStateHandle.get<String>(KEY_CURRENT_DIRECTORY)
