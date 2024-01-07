@@ -1,8 +1,11 @@
 package com.example.fileexplorer.ui
 
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
+import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -125,7 +128,7 @@ fun FileExplorerScreen() {
         content = { padding ->
             LazyColumn(modifier = Modifier.padding(padding)) {
                 items(files) { fileItem ->
-                    FileItemView(fileItem) {
+                    FileItemView(fileItem, context) {
                         if (fileItem.isDirectory) {
                             Log.d("FileExplorerScreen", "Navigating to ${fileItem.path}, is directory: ${fileItem.isDirectory}")
                             fileExplorerViewModel.navigateToDirectory(fileItem.path)
@@ -150,12 +153,18 @@ fun FileExplorerScreen() {
     }
 }
 @Composable
-fun FileItemView(fileItem: FileItem, onClick: () -> Unit) {
+fun FileItemView(fileItem: FileItem, context: Context, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable(onClick = onClick),
+            .clickable {
+                if (!fileItem.isDirectory) {
+                    openFile(context, fileItem)
+                } else {
+                    onClick()
+                }
+            },
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -289,4 +298,20 @@ fun SearchDialog(criteria: SearchCriteria, onCriteriaChanged: (SearchCriteria) -
         },
         // Optional dismiss button
     )
+}
+
+fun openFile(context: Context, fileItem: FileItem) {
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        setDataAndType(
+            Uri.parse(fileItem.path),
+            MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileItem.fileType)
+        )
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+    }
+    try {
+        context.startActivity(intent)
+    } catch (e: Exception) {
+        // Handle exception (e.g., no app found to open this file type)
+        Log.e("FileExplorer", "Error opening file", e)
+    }
 }

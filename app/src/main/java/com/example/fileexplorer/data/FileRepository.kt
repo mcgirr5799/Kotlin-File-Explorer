@@ -3,9 +3,9 @@ package com.example.fileexplorer.data
 import android.util.Log
 import java.io.File
 
-class FileRepository {
+open class FileRepository {
 
-    fun getFilesInDirectory(directoryPath: String): List<FileItem> {
+    open fun getFilesInDirectory(directoryPath: String): List<FileItem> {
         val directory = File(directoryPath)
         Log.d("FileRepository", "Accessing directory: $directoryPath")
 

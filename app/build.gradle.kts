@@ -64,6 +64,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1")
     implementation("androidx.savedstate:savedstate:1.1.0")
 
+    testImplementation("org.mockito:mockito-core:3.12.4")
 
     implementation("androidx.documentfile:documentfile:1.0.1")
     // Test dependencies
@@ -74,4 +75,7 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    androidTestImplementation("org.mockito:mockito-android:3.12.4")
+    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
 }
