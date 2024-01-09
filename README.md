@@ -14,11 +14,13 @@ Kotlin-File-Explorer is an Android application developed in a rapid development 
 ## Screenshots
 Add screenshots of your app here to showcase its features and user interface. Examples:
 - Home Screen
+ ![Home Screen](/Screenshots/HomePage.png)
 - File Browsing Interface
+ ![File Browsing](/Screenshots/FileExample.png)
 - Search Functionality
+ ![Search](/Screenshots/SearchCriteria.png)
 - File Sorting Options
-
-> Note: Replace these placeholder texts with actual screenshots of your app.
+ ![Sorting](/Screenshots/SortOptions.png)
 
 ## Installation
 To set up the project for development:
@@ -48,4 +50,3 @@ This project is licensed under the MIT License - see the LICENSE.md file in the 
 
 ## Acknowledgements
 This project was created with a focus on the rapid development of a file explorer utility, taking into account the latest changes in Android permissions. It's designed to provide a seamless file management experience on Android devices.
-r
