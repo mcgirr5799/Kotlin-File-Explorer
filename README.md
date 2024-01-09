@@ -14,13 +14,13 @@ Kotlin-File-Explorer is an Android application developed in a rapid development 
 ## Screenshots
 Add screenshots of your app here to showcase its features and user interface. Examples:
 - Home Screen
- ![Home Screen](/Screenshots/HomePage.png)
+- ![Home Screen](/Screenshots/HomePage.png)
 - File Browsing Interface
- ![File Browsing](/Screenshots/FileExample.png)
+- ![File Browsing](/Screenshots/FileExample.png)
 - Search Functionality
- ![Search](/Screenshots/SearchCriteria.png)
+- ![Search](/Screenshots/SearchCriteria.png)
 - File Sorting Options
- ![Sorting](/Screenshots/SortOptions.png)
+- ![Sorting](/Screenshots/SortOptions.png)
 
 ## Installation
 To set up the project for development:
