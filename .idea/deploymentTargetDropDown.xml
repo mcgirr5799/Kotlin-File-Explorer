@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="ExampleInstrumentedTest">
+        <State />
+      </entry>
       <entry key="FileExplorerViewModelTest (1)">
         <State />
       </entry>
@@ -11,13 +14,10 @@
       <entry key="testLoadFilesFromUri()">
         <State />
       </entry>
-      <entry key="testNavigateToDirectory()">
+      <entry key="testStringResource()">
         <State />
       </entry>
       <entry key="testUpdateCurrentDirectoryFromUri()">
-        <State />
-      </entry>
-      <entry key="testUpdateSearchCriteria()">
         <State />
       </entry>
     </value>

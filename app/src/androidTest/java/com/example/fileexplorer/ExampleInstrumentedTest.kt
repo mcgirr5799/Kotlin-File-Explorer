@@ -1,32 +1,49 @@
 package com.example.fileexplorer
 
+import android.content.pm.ActivityInfo
+import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+
     @Test
     fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.fileexplorer", appContext.packageName)
     }
 
-    //make test that check if the app is created correctly
     @Test
     fun testAppCreation() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val app = appContext.applicationContext
         assertNotNull(app)
     }
 
+    // Test for launching a specific activity
+    @Test
+    fun testLaunchMainActivity() {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            assertNotNull(scenario)
+        }
+    }
 
+    // Test for checking a resource (e.g., a string)
+    @Test
+    fun testStringResource() {
+        val appName = appContext.getString(R.string.app_name)
+        assertEquals("File Explorer", appName)
+    }
+
+    // Test for handling configuration changes like screen rotation
+    @Test
+    fun testConfigurationChange() {
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        activityScenario.onActivity { activity ->
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
+    }
 }
