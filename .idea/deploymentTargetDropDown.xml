@@ -2,16 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="FileExplorerViewModelTest">
-        <State />
-      </entry>
       <entry key="FileExplorerViewModelTest (1)">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="useAppContext()">
+      <entry key="testLoadFilesFromUri()">
+        <State />
+      </entry>
+      <entry key="testNavigateToDirectory()">
+        <State />
+      </entry>
+      <entry key="testUpdateCurrentDirectoryFromUri()">
+        <State />
+      </entry>
+      <entry key="testUpdateSearchCriteria()">
         <State />
       </entry>
     </value>

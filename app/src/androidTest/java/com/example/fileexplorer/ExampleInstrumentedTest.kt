@@ -1,12 +1,10 @@
 package com.example.fileexplorer
 
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
+import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -21,4 +19,14 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.fileexplorer", appContext.packageName)
     }
+
+    //make test that check if the app is created correctly
+    @Test
+    fun testAppCreation() {
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val app = appContext.applicationContext
+        assertNotNull(app)
+    }
+
+
 }
