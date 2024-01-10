@@ -12,7 +12,6 @@ Kotlin-File-Explorer is an Android application developed in a rapid development 
 - A robust ViewModel-based architecture utilizing LiveData and StateFlow.
 
 ## Screenshots
-Add screenshots of your app here to showcase its features and user interface. Examples:
 - Home Screen
 - ![Home Screen](/Screenshots/HomePage.png)
 - File Browsing Interface
